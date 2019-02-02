@@ -11,7 +11,7 @@ Loading.defaultProps = {
   height: "28px"
 };
 
-Loading.PropTypes = {
+Loading.propTypes = {
   width: PropTypes.string,
   heighgt: PropTypes.string
 };
