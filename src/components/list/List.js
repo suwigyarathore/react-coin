@@ -1,8 +1,8 @@
 import React from "react";
 import { handleResponse } from "../../helper";
 import { API_URL } from "../../config";
-import "./Table.css";
 import Loading from "../common/Loading";
+import Table from "./Table";
 
 class List extends React.Component {
   constructor() {
@@ -10,13 +10,17 @@ class List extends React.Component {
     this.state = {
       loading: false,
       currencies: [],
-      error: null
+      error: null,
+      totalPages: 0,
+      page: 1
     };
   }
 
   componentDidMount() {
     this.setState({ loading: true });
-    fetch(`${API_URL}/cryptocurrencies?page=1&perPage=20`)
+    const { page } = this.state;
+
+    fetch(`${API_URL}/cryptocurrencies?page=${page}&perPage=20`)
       .then(handleResponse)
       .then(data => {
         this.setState({ currencies: data.currencies, loading: false });
@@ -50,35 +54,10 @@ class List extends React.Component {
       return <div className="error">{error}</div>;
     }
     return (
-      <div className="Table-container">
-        <table className="Table">
-          <thead className="Table-head">
-            <tr>
-              <th>Cryptocurreny</th>
-              <th>Price</th>
-              <th>Market Cap</th>
-              <th>24H Change</th>
-            </tr>
-          </thead>
-          <tbody className="Table-body">
-            {currencies.map(currency => (
-              <tr key={currency.name}>
-                <td>
-                  <span className="Table-rank">{currency.rank}</span>
-                  {currency.name}
-                </td>
-                <td>
-                  <span className="Table-dollar">$ {currency.price}</span>
-                </td>
-                <td>
-                  <span className="Table-dollar">$ {currency.marketCap}</span>
-                </td>
-                <td>{this.renderChangePercent(currency.percentChange24h)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <Table
+        currencies={currencies}
+        renderChangePercent={this.renderChangePercent}
+      />
     );
   }
 }
