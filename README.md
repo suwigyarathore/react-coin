@@ -1,8 +1,17 @@
 # React coin portal
 
-This is a react crypto currency portal
+This is a react crypto currency portal for latest crpto currency news with rich search
+
+## Demo
+https://react-crypto-news.herokuapp.com/
+
+## Screen Shot 
+
+![Alt text](/screen.png "Optional Title")
+
 
 ## Getting started
+
 
 ### Familiar with Git?
 
