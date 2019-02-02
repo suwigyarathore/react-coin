@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import "./Table.css";
 
-const Table = ({ currencies, renderChangePercent }) => (
+const Table = ({ currencies, renderChangePercent, history }) => (
   <div className="Table-container">
     <table className="Table">
       <thead className="Table-head">
@@ -15,7 +16,10 @@ const Table = ({ currencies, renderChangePercent }) => (
       </thead>
       <tbody className="Table-body">
         {currencies.map(currency => (
-          <tr key={currency.name}>
+          <tr
+            key={currency.name}
+            onClick={() => history.push(`/currency/${currency.id}`)}
+          >
             <td>
               <span className="Table-rank">{currency.rank}</span>
               {currency.name}
@@ -38,7 +42,8 @@ const Table = ({ currencies, renderChangePercent }) => (
 
 Table.propTypes = {
   currencies: PropTypes.array.isRequired,
-  renderChangePercent: PropTypes.func.isRequired
+  renderChangePercent: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
-export default Table;
+export default withRouter(Table);
