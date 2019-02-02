@@ -6,6 +6,7 @@ import Loading from "./Loading";
 
 export default class Search extends Component {
   state = {
+    searchResults: [],
     searchQuery: "",
     isLoading: false
   };
