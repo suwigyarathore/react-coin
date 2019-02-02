@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { handleResponse } from "../../helper";
 import { API_URL } from "../../config";
 import Loading from "../common/Loading";
@@ -18,6 +18,10 @@ class List extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchCurrencies();
+  }
+
+  fetchCurrencies() {
     this.setState({ loading: true });
     const { page } = this.state;
 
@@ -46,6 +50,12 @@ class List extends React.Component {
     }
   }
 
+  handlePaginationClick = direction => {
+    let nextPage = this.state.page;
+    nextPage = direction === "next" ? nextPage + 1 : nextPage - 1;
+    this.setState({ page: nextPage }, () => this.fetchCurrencies());
+  };
+
   render() {
     const { loading, error, currencies, page, totalPages } = this.state;
     if (loading) {
@@ -60,13 +70,17 @@ class List extends React.Component {
       return <div className="error">{error}</div>;
     }
     return (
-      <fragment>
+      <Fragment>
         <Table
           currencies={currencies}
           renderChangePercent={this.renderChangePercent}
         />
-        <Pagination page={page} totalPages={totalPages} />
-      </fragment>
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          handlePaginationClick={this.handlePaginationClick}
+        />
+      </Fragment>
     );
   }
 }
