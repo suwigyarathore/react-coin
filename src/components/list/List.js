@@ -3,6 +3,7 @@ import { handleResponse } from "../../helper";
 import { API_URL } from "../../config";
 import Loading from "../common/Loading";
 import Table from "./Table";
+import Pagination from "./Pagination";
 
 class List extends React.Component {
   constructor() {
@@ -23,7 +24,12 @@ class List extends React.Component {
     fetch(`${API_URL}/cryptocurrencies?page=${page}&perPage=20`)
       .then(handleResponse)
       .then(data => {
-        this.setState({ currencies: data.currencies, loading: false });
+        const { currencies, totalPages } = data;
+        this.setState({
+          currencies,
+          loading: false,
+          totalPages
+        });
       })
       .catch(error => {
         this.setState({ error: error.errorMessage, loading: false });
@@ -41,7 +47,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { loading, error, currencies } = this.state;
+    const { loading, error, currencies, page, totalPages } = this.state;
     if (loading) {
       return (
         <div className="loading-container">
@@ -54,10 +60,13 @@ class List extends React.Component {
       return <div className="error">{error}</div>;
     }
     return (
-      <Table
-        currencies={currencies}
-        renderChangePercent={this.renderChangePercent}
-      />
+      <fragment>
+        <Table
+          currencies={currencies}
+          renderChangePercent={this.renderChangePercent}
+        />
+        <Pagination page={page} totalPages={totalPages} />
+      </fragment>
     );
   }
 }
