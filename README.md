@@ -12,6 +12,7 @@ https://react-crypto-news.herokuapp.com/
 
 ## Getting started
 
+Just follow below steps
 
 ### Familiar with Git?
 
